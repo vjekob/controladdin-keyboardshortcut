@@ -34,7 +34,6 @@
         if (!shortcuts[key])
             return;
 
-        debugger;
         var button = findButton(shortcuts[key]);
         if (!button)
             return;
@@ -48,16 +47,16 @@
 
     function findButton(btn) {
         for (var d = 0; d < documents.length; d++) {
-            var buttons = documents[d].querySelectorAll("button > div > div > div > img");
+            var buttons = documents[d].querySelectorAll("a > span > span > img");
             for (var i = 0; i < buttons.length; i++) {
                 if (buttons[i].src.indexOf("_Action_" + btn.icon + "_") >= 0) {
                     var couldbe = buttons[i];
-                    var span = couldbe.parentElement.parentElement.parentElement.querySelector("div.ms-Button-textContainer > span > span");
-                    if (span && span.innerText === btn.caption)
-                        return span;
-                    var div = couldbe.parentElement.parentElement.parentElement.querySelector("div.ms-Button-textContainer > div");
-                    if (div && div.innerText === btn.caption)
-                        return div;
+                    var spans = couldbe.parentElement.parentElement.parentElement.querySelectorAll("span");
+                    for (var j = 0; j < spans.length; j++) {
+                        if (spans[j].innerText === btn.caption) {
+                            return couldbe;
+                        }
+                    }
                 }
             }
         }
